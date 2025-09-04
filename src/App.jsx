@@ -24,7 +24,9 @@ export default function App() {
   // Fetch states when country changes
   useEffect(() => {
     if (!country) return;
-    fetch(`https://crio-location-selector.onrender.com/country=${country}/states`)
+    fetch(
+      `https://crio-location-selector.onrender.com/country=${country}/states`
+    )
       .then((res) => res.json())
       .then((data) => {
         const unique = [...new Set(data.map((s) => s.trim()))];
@@ -39,7 +41,9 @@ export default function App() {
   //  Fetch cities when state changes
   useEffect(() => {
     if (!state) return;
-    fetch(`https://crio-location-selector.onrender.com/country=${country}/state=${state}/cities`)
+    fetch(
+      `https://crio-location-selector.onrender.com/country=${country}/state=${state}/cities`
+    )
       .then((res) => res.json())
       .then((data) => {
         const unique = [...new Set(data.map((ct) => ct.trim()))];
@@ -56,7 +60,11 @@ export default function App() {
       {/* Country Dropdown */}
       <label>
         Country:{" "}
-        <select value={country} onChange={(e) => setCountry(e.target.value)}>
+        <select
+          data-testid="country-select"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+        >
           <option value="">Select Country</option>
           {countries.map((c) => (
             <option key={c} value={c}>
@@ -73,6 +81,7 @@ export default function App() {
       <label>
         State:{" "}
         <select
+          data-testid="state-select"
           value={state}
           onChange={(e) => setState(e.target.value)}
           disabled={!country}
@@ -93,6 +102,7 @@ export default function App() {
       <label>
         City:{" "}
         <select
+          data-testid="city-select"
           value={city}
           onChange={(e) => setCity(e.target.value)}
           disabled={!state}
@@ -112,7 +122,7 @@ export default function App() {
       {/* Final Selection */}
       {country && state && city && (
         <p>
-          You selected: <b>{`${city}, ${state}, ${country}`}</b>
+          You selected {city}, {state}, {country}
         </p>
       )}
     </div>
