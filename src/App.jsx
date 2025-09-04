@@ -67,7 +67,7 @@ export default function App() {
         >
           <option value="">Select Country</option>
           {countries.map((c) => (
-            <option key={c} value={c}>
+            <option key={c} value={c} data-testid={`country-option-${c}`}>
               {c}
             </option>
           ))}
