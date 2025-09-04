@@ -39,23 +39,19 @@ export default function App() {
   }, [country]);
 
   //  Fetch cities when state changes
-useEffect(() => {
-  if (!state || !country) return;
-
-  fetch(
-    `https://crio-location-selector.onrender.com/country=${country}/state=${state}/cities`
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      // ✅ API returns { cities: [ "city1", "city2", ... ] }
-      const cityList = Array.isArray(data.cities) ? data.cities : [];
-      const unique = [...new Set(cityList.map((ct) => ct.trim()))];
-      setCities(unique);
-      setCity("");
-    })
-    .catch((err) => console.error("Error fetching cities:", err));
-}, [state, country]);
-
+  useEffect(() => {
+    if (!state) return;
+    fetch(
+      `https://crio-location-selector.onrender.com/country=${country}/state=${state}/cities`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const unique = [...new Set(data.map((ct) => ct.trim()))];
+        setCities(unique);
+        setCity("");
+      })
+      .catch((err) => console.error("Error fetching cities:", err));
+  }, [state, country]);
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
