@@ -9,14 +9,12 @@ export default function App() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
 
-  //  Fetch countries
+  // Fetch countries
   useEffect(() => {
     fetch("https://crio-location-selector.onrender.com/countries")
       .then((res) => res.json())
       .then((data) => {
-        // clean up duplicates & spaces
-        const unique = [...new Set(data.map((c) => c.trim()))];
-        setCountries(unique);
+        setCountries(data); // ✅ Use raw API data (no trim/dedupe)
       })
       .catch((err) => console.error("Error fetching countries:", err));
   }, []);
@@ -29,8 +27,7 @@ export default function App() {
     )
       .then((res) => res.json())
       .then((data) => {
-        const unique = [...new Set(data.map((s) => s.trim()))];
-        setStates(unique);
+        setStates(data); // ✅ Use raw API data
         setState("");
         setCities([]);
         setCity("");
@@ -38,7 +35,7 @@ export default function App() {
       .catch((err) => console.error("Error fetching states:", err));
   }, [country]);
 
-  //  Fetch cities when state changes
+  // Fetch cities when state changes
   useEffect(() => {
     if (!state) return;
     fetch(
@@ -46,8 +43,7 @@ export default function App() {
     )
       .then((res) => res.json())
       .then((data) => {
-        const unique = [...new Set(data.map((ct) => ct.trim()))];
-        setCities(unique);
+        setCities(data); // ✅ Use raw API data
         setCity("");
       })
       .catch((err) => console.error("Error fetching cities:", err));
